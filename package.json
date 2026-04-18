@@ -1,0 +1,14 @@
+{
+  "name": "nostalgictrees-wiki",
+  "version": "0.1.0",
+  "private": true,
+  "description": "VitePress source for the Nostalgic Trees wiki",
+  "scripts": {
+    "dev": "vitepress dev wiki-src",
+    "build": "vitepress build wiki-src",
+    "preview": "vitepress preview wiki-src"
+  },
+  "devDependencies": {
+    "vitepress": "^1.5.0"
+  }
+}

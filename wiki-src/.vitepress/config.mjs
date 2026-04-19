@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 export default defineConfig({
     // Served at nostalgic.am/wiki/
-    base: '/wiki/',
+    base: '/wiki/nostalgictrees',
 
     title: 'Nostalgic Trees',
     description: 'Packmaker reference for the Nostalgic Trees Minecraft mod',

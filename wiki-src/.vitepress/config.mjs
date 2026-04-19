@@ -2,13 +2,13 @@ import { defineConfig } from 'vitepress'
 
 export default defineConfig({
     // Served at nostalgic.am/wiki/
-    base: '/wiki/nostalgictrees',
+    base: '/wiki/nostalgictrees/',
 
     title: 'Nostalgic Trees',
     description: 'Packmaker reference for the Nostalgic Trees Minecraft mod',
 
     // Output into the repo's wiki/ folder so GitHub Pages serves it
-    outDir: '../wiki',
+    outDir: '../wiki/nostalgictrees/',
 
     // Clean URLs (no .html suffix in links)
     cleanUrls: true,

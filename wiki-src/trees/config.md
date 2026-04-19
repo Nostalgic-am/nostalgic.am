@@ -1,19 +1,19 @@
 # Tree Config Schema
 
-Every tree in Nostalgic Trees is defined by a JSON file at `config/nostalgictrees/trees/<treename>.json`. Each file is a single tree. The file's location is the only thing that links it to the mod — the filename itself is conventional but doesn't have to match the `name` field.
+Every tree in Nostalgic Trees is defined by a JSON file at `config/nostalgictrees/trees/<treename>.json`. Each file is a single tree.
 
-On first launch, the mod writes 23 default trees to this folder. You can delete, edit, or add to them freely. Changes take effect on the next world load.
+On first launch, the mod writes default trees to this folder. You can delete, edit, or add to them freely. Changes take effect on the next world load.
 
 ## Schema
 
 ```json
 {
-  "name": "iron",
-  "tier": "tier_3",
-  "output_item": "minecraft:raw_iron",
+  "name": "uranium",
+  "tier": "tier_4",
+  "output_item": "mekanism:raw_uranium",
   "output_count": 1,
-  "color": "C9A78B",
-  "required_mod": "minecraft"
+  "color": "4ADE3F",
+  "required_mod": "mekanism"
 }
 ```
 
@@ -57,9 +57,7 @@ You don't write any of this yourself. Add the JSON, restart, it exists.
 
 If writing JSON by hand is tedious, use the [Tree Config Generator](https://nostalgic.am/treeconfig/) — fill out a form, copy the result, drop into your config folder.
 
-## Example: cross-mod tree
-
-A slime tree that only loads when the slime mod is installed:
+## Examples:
 
 ```json
 {
@@ -71,7 +69,7 @@ A slime tree that only loads when the slime mod is installed:
 }
 ```
 
-No `required_mod` here because slime balls are vanilla. For a tree gated on Mekanism being present:
+No `required_mod` here because slime balls are vanilla.
 
 ```json
 {

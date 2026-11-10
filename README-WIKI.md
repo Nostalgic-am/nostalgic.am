@@ -1,90 +1,95 @@
-# Nostalgic Trees Wiki — Setup
+# Nostalgic Wikis — Setup
 
-VitePress source for the wiki at `nostalgic.am/wiki/`. Content lives in `wiki-src/`, builds to `wiki/`, served by GitHub Pages alongside your existing site.
+VitePress sources for the mod wikis on nostalgic.am. Each mod has its own wiki:
 
-## One-time setup
+| Wiki | Source | Live at |
+|---|---|---|
+| Nostalgic Trees | `wiki-src/nostalgictrees/` | https://nostalgic.am/wiki/nostalgictrees/ |
+| Nostalgic Dialog | `wiki-src/nostalgicdialog/` | https://nostalgic.am/wiki/nostalgicdialog/ |
 
-1. **Copy these files into your `nostalgic.am` repo root.** The folder should end up looking like:
+Pushing a change under `wiki-src/` runs the **Build Wiki** workflow. It builds every wiki into `wiki/<mod>/` and commits the result back to `main`, and GitHub Pages serves it.
 
-   ```
-   nostalgic.am/
-   ├── index.html              (existing)
-   ├── treeconfig/             (existing)
-   ├── blockpattern/           (existing)
-   ├── CNAME                   (existing)
-   ├── package.json            (new — from this zip)
-   ├── .gitignore              (new — merge with existing if you have one)
-   ├── .github/workflows/build-wiki.yml  (new)
-   └── wiki-src/               (new — all markdown source)
-       ├── .vitepress/
-       ├── index.md
-       ├── recipes/
-       ├── reference/
-       └── trees/
-   ```
+## Folder layout
 
-2. **Push to main.** The workflow runs, builds `wiki-src/` → `wiki/`, and commits the built HTML back to the repo. GitHub Pages serves it at `nostalgic.am/wiki/`.
+```
+nostalgic.am/
+├── CNAME
+├── treeconfig/                      Tree Config Generator
+├── blockpattern/
+├── package.json                     build scripts
+├── .github/workflows/build-wiki.yml
+├── wiki/                            built output (written by the workflow, don't edit)
+└── wiki-src/
+    ├── nostalgictrees/
+    │   ├── .vitepress/config.mjs    sidebar, nav, base path
+    │   └── *.md, recipes/, trees/
+    └── nostalgicdialog/
+        ├── .vitepress/config.mjs
+        ├── public/                  images (banner.gif)
+        └── *.md, guide/, logic/, using/, examples/
+```
 
-3. **That's it.** Every push to `wiki-src/**` triggers a rebuild automatically.
+## Before you push
 
-## Local development
+The workflow commits the built wiki back to `main`, so your local copy falls behind after every build. Always pull first:
 
-To preview changes before pushing:
+```bash
+git pull
+```
+
+## Local preview
 
 ```bash
 npm install
-npm run dev
+npm run dev:trees      # http://localhost:5173/wiki/nostalgictrees/
+npm run dev:dialog     # http://localhost:5173/wiki/nostalgicdialog/
 ```
 
-VitePress serves at `http://localhost:5173/wiki/` with hot reload. Edit any `.md` file and the page updates live.
+Edit any `.md` file and the page updates live.
 
-To test the production build locally:
+To test the real build:
 
 ```bash
-npm run build
-npm run preview
+npm run build                                    # builds every wiki
+npm run preview:dialog                           # or preview:trees
 ```
 
-## Adding a new page
+The build **fails on a broken link** between pages (`ignoreDeadLinks: 'localhostLinks'` in each config). Fix the link the error names and build again.
 
-1. Create a new `.md` file under `wiki-src/` (in the appropriate folder — `recipes/`, `reference/`, etc.)
-2. Add an entry to the sidebar in `wiki-src/.vitepress/config.mjs`
-3. Commit and push
+## Adding a page
 
-Example — adding an events page:
+1. Create the `.md` file in the mod's folder, for example `wiki-src/nostalgicdialog/guide/portraits.md`.
+2. Add it to the `sidebar` in that mod's `.vitepress/config.mjs`:
+   ```javascript
+   { text: 'Portraits', link: '/guide/portraits' }
+   ```
+   Links leave out the `.md` and the `/wiki/<mod>/` part.
+3. Commit and push.
 
-```javascript
-// in wiki-src/.vitepress/config.mjs, in the sidebar array:
-{
-    text: 'Events',
-    items: [
-        { text: 'Block Break Listeners', link: '/events/block-break' },
-    ]
-}
-```
+## Adding a wiki for another mod
 
-Then create `wiki-src/events/block-break.md` with your content.
+1. Copy `wiki-src/nostalgicdialog/.vitepress/` to `wiki-src/<newmod>/.vitepress/`.
+2. In its `config.mjs`, change `base` to `/wiki/<newmod>/`, `outDir` to `../../wiki/<newmod>/`, the title, description, nav and sidebar.
+3. Add an `index.md` and your pages.
+4. In `package.json`, add `"build:<newmod>": "vitepress build wiki-src/<newmod>"` and add it to the `build` script.
 
-## Editing existing content
+## Look
 
-Just edit the `.md` files. Push. The workflow rebuilds.
-
-## Theming
-
-The theme matches `nostalgic.am`: dark navy surfaces, Silkscreen pixel headings, red/green accents.
-
-To tweak colors, edit `wiki-src/.vitepress/theme/custom.css`. The CSS variables at the top (`--nt-bg`, `--nt-accent`, etc.) are the main tuning knobs.
+Every wiki uses the standard VitePress theme, with light and dark mode, so they all look the same. Images go in the wiki's `public/` folder and are linked from the root, for example `<img src="/banner.gif">`.
 
 ## Troubleshooting
 
-**"The workflow ran but nothing was committed."**
-Either no changes were detected or you don't have workflow write permissions. Check `Settings → Actions → General → Workflow permissions` and make sure "Read and write permissions" is enabled.
+**The workflow ran but nothing was committed.**
+Either nothing changed, or the workflow can't write. Check `Settings → Actions → General → Workflow permissions` and choose "Read and write permissions".
 
-**"Built wiki shows a 404 at nostalgic.am/wiki/."**
-GitHub Pages might still be serving from a cached build. Check `Settings → Pages` and confirm the source is `main` branch, root folder. Force a re-deploy by pushing an empty commit: `git commit --allow-empty -m "Force pages rebuild" && git push`.
+**Push rejected ("fetch first").**
+The workflow committed a build since your last pull. Run `git pull`, then push again.
 
-**"Sidebar nav shows a broken link."**
-The link in `config.mjs` points to a file that doesn't exist. Check that the target `.md` file is present under `wiki-src/` and the link path matches (without the `.md` extension).
+**A wiki shows a 404.**
+Check `Settings → Pages`: the source should be the `main` branch, root folder. Force a redeploy with an empty commit: `git commit --allow-empty -m "Force pages rebuild" && git push`.
 
-**"I pushed and the workflow didn't run."**
-The workflow is scoped to `wiki-src/**` paths by default. If you only changed `package.json` or the workflow file, trigger it manually from the Actions tab (`Build Wiki` → `Run workflow`).
+**The build fails with "Found dead links".**
+A link points to a page that doesn't exist. The error names the page and the link. Fix the path, without the `.md` extension.
+
+**I pushed and the workflow didn't run.**
+It only runs for changes under `wiki-src/`, to `package.json`, or to the workflow file. Start it by hand from the Actions tab: `Build Wiki` → `Run workflow`.

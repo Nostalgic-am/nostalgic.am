@@ -1,0 +1,74 @@
+/* Shared look for every Nostalgic wiki, matching nostalgic.am:
+   dark navy surfaces, Silkscreen pixel headings, red and green accents. */
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Nunito:wght@400;600;700&display=swap');
+
+:root {
+  --nt-bg: #1a1a2e;
+  --nt-surface: #16213e;
+  --nt-input: #0d1b36;
+  --nt-border: #2a3a5e;
+  --nt-text: #eeeeee;
+  --nt-text-dim: #8899aa;
+  --nt-accent: #e94560;
+  --nt-accent2: #53d769;
+}
+
+:root,
+.dark {
+  --vp-c-bg: var(--nt-bg);
+  --vp-c-bg-alt: var(--nt-surface);
+  --vp-c-bg-elv: var(--nt-surface);
+  --vp-c-bg-soft: var(--nt-input);
+  --vp-c-divider: var(--nt-border);
+  --vp-c-border: var(--nt-border);
+  --vp-c-gutter: var(--nt-input);
+  --vp-c-text-1: var(--nt-text);
+  --vp-c-text-2: #c3ccd6;
+  --vp-c-text-3: var(--nt-text-dim);
+
+  --vp-c-brand-1: var(--nt-accent2);
+  --vp-c-brand-2: #6fe283;
+  --vp-c-brand-3: #3fb556;
+  --vp-c-brand-soft: rgba(83, 215, 105, 0.14);
+
+  --vp-code-bg: var(--nt-input);
+  --vp-code-block-bg: var(--nt-input);
+  --vp-code-color: #ff8fa3;
+  --vp-c-default-soft: rgba(42, 58, 94, 0.6);
+
+  --vp-c-tip-1: var(--nt-accent2);
+  --vp-c-tip-soft: rgba(83, 215, 105, 0.10);
+  --vp-c-warning-soft: rgba(233, 180, 69, 0.12);
+  --vp-c-danger-1: var(--nt-accent);
+  --vp-c-danger-soft: rgba(233, 69, 96, 0.12);
+
+  --vp-font-family-base: 'Nunito', ui-sans-serif, system-ui, sans-serif;
+  --vp-sidebar-bg-color: var(--nt-surface);
+  --vp-nav-bg-color: var(--nt-bg);
+  --vp-local-search-bg: var(--nt-surface);
+  --vp-local-search-result-bg: var(--nt-input);
+}
+
+/* Pixel headings, like the site */
+.vp-doc h1,
+.vp-doc h2,
+.VPNavBarTitle .title,
+.VPSidebarItem.level-0 > .item > .text,
+.VPHero .name {
+  font-family: 'Silkscreen', 'Nunito', sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+.vp-doc h1 { color: var(--nt-accent2); }
+.vp-doc h2 { color: var(--nt-accent); border-top-color: var(--nt-border); }
+.VPNavBarTitle .title { color: var(--nt-accent2); }
+
+/* Tables read like the site's panels */
+.vp-doc table { background: var(--nt-surface); }
+.vp-doc tr:nth-child(2n) { background: rgba(13, 27, 54, 0.6); }
+.vp-doc th { background: var(--nt-input); color: var(--nt-accent2); }
+
+/* Pixel images stay crisp */
+.vp-doc img.pixel,
+.VPHero .image-src { image-rendering: pixelated; }

@@ -14,26 +14,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Nostalgic</title>
-  <meta name="description" content="Nostalgic: Minecraft mods, wikis and packmaker tools.">
-  <meta name="theme-color" content="#1b1b1c">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Crect width='8' height='8' rx='2' fill='%231b1b1c'/%3E%3Cpath fill='%2335f0c8' d='M2 2h1v1h1v1h1V2h1v4H5V5H4V4H3v2H2z'/%3E%3C/svg%3E">
+  <meta name="description" content="Finding Purpose, Questioning Reality">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Nostalgic">
+  <meta property="og:title" content="Nostalgic">
+  <meta property="og:description" content="Finding Purpose, Questioning Reality">
+  <meta property="og:url" content="https://nostalgic.am/">
+  <meta name="theme-color" content="#2ff5c3">
+  <link rel="icon" href="data:,">  <!-- no favicon for now -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Pixelify+Sans:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap">
   <style>
-    /* Layout: one centered column. Neon pixel title, then a grid of soft raised
-       tiles (one per mod) that press in when touched, then a row of round
-       social buttons and the footer. Single dark-teal theme on purpose. */
+
     :root {
-      --base: #1b1b1c;          /* charcoal, same family as the old page */
-      --base-hi: #202022;       /* lit edge of a raised tile */
-      --base-lo: #171718;       /* shaded edge */
+      --base: #1b1b1c;          
+      --base-hi: #202022;       
+      --base-lo: #171718;       
       --shadow-dark: #0d0d0e;
       --shadow-light: #262628;
       --text: #e9e9e9;
       --text-dim: #8a8a8f;
-      --neon: #2ff5c3;          /* the title glow, the only accent */
-      --pixel: 'Silkscreen', 'Courier New', monospace;   /* the logo only */
+      --neon: #2ff5c3;          
+      --pixel: 'Silkscreen', 'Courier New', monospace;   
       --title: 'Pixelify Sans', 'Nunito', system-ui, sans-serif;
       --body: 'Nunito', system-ui, sans-serif;
       --r-tile: 32px;
@@ -69,8 +72,7 @@
       animation: none;
       position: relative;
     }
-    /* Glitch: two colored copies of the word, sliced and shoved sideways for a
-       moment. A script adds .glitch at random times (every 4-11 seconds). */
+
     h1::before, h1::after {
       content: attr(data-text); position: absolute; inset: 0;
       text-shadow: none; opacity: 0; pointer-events: none;
@@ -133,7 +135,6 @@
     .tile h2 a:focus-visible { outline: none; }
     .tile:has(h2 a:focus-visible) { outline: 2px solid var(--neon); outline-offset: 6px; }
     .tile p { color: var(--text-dim); font-size: .95rem; line-height: 1.55; }
-    .tile .ver { font-family: var(--title); font-size: .8rem; color: var(--text-dim); letter-spacing: 1px; opacity: .8; }
 
     .chips { display: flex; flex-wrap: wrap; gap: 12px; margin-top: auto; padding-top: 8px; position: relative; z-index: 1; }
     .chip {
@@ -196,7 +197,6 @@
       <article class="tile trees">
         <h2><a href="/wiki/nostalgictrees/">Nostalgic Trees</a></h2>
         <p>Resource trees that grow ores and materials. Mutate saplings, dry the harvest and build out a tree farm.</p>
-        <span class="ver">NeoForge 1.21.1</span>
         <div class="chips">
           <a class="chip main" href="/wiki/nostalgictrees/">Wiki</a>
           <a class="chip" href="/treeconfig/">Tree Config</a>
@@ -207,7 +207,6 @@
       <article class="tile dialog">
         <h2><a href="/wiki/nostalgicdialog/">Nostalgic Dialog</a></h2>
         <p>Classic RPG conversations: typed-out text, talking blips, portraits that change with the mood, and choices that matter.</p>
-        <span class="ver">NeoForge 1.21.1</span>
         <div class="chips">
           <a class="chip main" href="/wiki/nostalgicdialog/">Wiki</a>
           <a class="chip" href="/wiki/nostalgicdialog/for-packmakers">Get started</a>
@@ -216,8 +215,7 @@
 
       <article class="tile rituals">
         <h2><a href="/blockpattern/">Summoning Rituals</a></h2>
-        <p>Build a ritual structure in game, import it here, and get ready-to-paste KubeJS <code style="font-family:inherit;color:var(--text)">blockPattern()</code> code.</p>
-        <span class="ver">KubeJS</span>
+        <p>Build a ritual structure in game, import it here, and get ready-to-paste KubeJS code.</p>
         <div class="chips">
           <a class="chip main" href="/blockpattern/">Block Pattern Builder</a>
         </div>

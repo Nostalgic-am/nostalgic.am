@@ -1,0 +1,254 @@
+<!--
+  Nostalgic - Home
+  Copyright (c) 2026 All Rights Reserved.
+
+  This software is proprietary. Unauthorized copying, modification,
+  distribution, or use of this software, via any medium, is strictly
+  prohibited. This code is protected by intellectual property laws.
+
+  Reverse engineering, decompilation, or disassembly is prohibited.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Nostalgic</title>
+  <meta name="description" content="Nostalgic: Minecraft mods, wikis and packmaker tools.">
+  <meta name="theme-color" content="#1b1b1c">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Crect width='8' height='8' rx='2' fill='%231b1b1c'/%3E%3Cpath fill='%2335f0c8' d='M2 2h1v1h1v1h1V2h1v4H5V5H4V4H3v2H2z'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Pixelify+Sans:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap">
+  <style>
+    /* Layout: one centered column. Neon pixel title, then a grid of soft raised
+       tiles (one per mod) that press in when touched, then a row of round
+       social buttons and the footer. Single dark-teal theme on purpose. */
+    :root {
+      --base: #1b1b1c;          /* charcoal, same family as the old page */
+      --base-hi: #202022;       /* lit edge of a raised tile */
+      --base-lo: #171718;       /* shaded edge */
+      --shadow-dark: #0d0d0e;
+      --shadow-light: #262628;
+      --text: #e9e9e9;
+      --text-dim: #8a8a8f;
+      --neon: #2ff5c3;          /* the title glow, the only accent */
+      --pixel: 'Silkscreen', 'Courier New', monospace;   /* the logo only */
+      --title: 'Pixelify Sans', 'Nunito', system-ui, sans-serif;
+      --body: 'Nunito', system-ui, sans-serif;
+      --r-tile: 32px;
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: var(--base); }
+    body {
+      color: var(--text);
+      font-family: var(--body);
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      /* a very faint vignette so the middle feels lit */
+      background: var(--base);
+    }
+
+    .wrap {
+      width: 100%; max-width: 1080px; margin: 0 auto; flex: 1;
+      padding-block: clamp(48px, 9vh, 96px) 40px;
+      padding-left: max(20px, env(safe-area-inset-left, 0px));
+      padding-right: max(20px, env(safe-area-inset-right, 0px));
+      display: flex; flex-direction: column; align-items: center; gap: clamp(40px, 7vh, 64px);
+    }
+
+    /* ---------- title ---------- */
+    header { text-align: center; display: flex; flex-direction: column; gap: 14px; align-items: center; }
+    h1 {
+      font-family: var(--pixel); font-weight: 700;
+      font-size: clamp(2.6rem, 9vw, 5rem); line-height: 1; letter-spacing: 2px;
+      color: var(--neon);
+      text-shadow: 0 0 6px rgba(53, 240, 200, .75), 0 0 22px rgba(53, 240, 200, .45), 0 0 48px rgba(53, 240, 200, .25);
+      animation: none;
+      position: relative;
+    }
+    /* Glitch: two colored copies of the word, sliced and shoved sideways for a
+       moment. A script adds .glitch at random times (every 4-11 seconds). */
+    h1::before, h1::after {
+      content: attr(data-text); position: absolute; inset: 0;
+      text-shadow: none; opacity: 0; pointer-events: none;
+    }
+    h1::before { color: #ff2d75; }
+    h1::after { color: #3d7bff; }
+    h1.glitch { animation: jolt .5s steps(1) 1; }
+    h1.glitch::before { animation: slice-a .5s steps(1) 1; }
+    h1.glitch::after { animation: slice-b .5s steps(1) 1; }
+    @keyframes jolt {
+      0% { transform: translateX(3px) skewX(-10deg); }
+      15% { transform: translateX(-4px); opacity: .7; }
+      30% { transform: skewX(8deg); opacity: 1; }
+      45% { transform: translateX(2px); }
+      60% { transform: none; opacity: .8; }
+      75%, 100% { transform: none; opacity: 1; }
+    }
+    @keyframes slice-a {
+      0% { opacity: .9; transform: translate(-6px, -1px); clip-path: inset(8% 0 62% 0); }
+      15% { transform: translate(7px, 1px); clip-path: inset(52% 0 22% 0); }
+      30% { transform: translate(-4px, 0); clip-path: inset(28% 0 48% 0); }
+      45% { transform: translate(5px, -2px); clip-path: inset(72% 0 4% 0); }
+      60% { transform: translate(-3px, 1px); clip-path: inset(0 0 82% 0); }
+      75%, 100% { opacity: 0; transform: none; clip-path: inset(0); }
+    }
+    @keyframes slice-b {
+      0% { opacity: .9; transform: translate(6px, 1px); clip-path: inset(60% 0 12% 0); }
+      15% { transform: translate(-7px, -1px); clip-path: inset(18% 0 58% 0); }
+      30% { transform: translate(4px, 2px); clip-path: inset(40% 0 35% 0); }
+      45% { transform: translate(-5px, 0); clip-path: inset(5% 0 75% 0); }
+      60% { transform: translate(3px, -1px); clip-path: inset(80% 0 0 0); }
+      75%, 100% { opacity: 0; transform: none; clip-path: inset(0); }
+    }
+    .tag { color: var(--text-dim); font-size: 1.02rem; max-width: 34ch; text-wrap: balance; line-height: 1.5; }
+    .tag b { color: var(--text); font-weight: 700; }
+
+    /* ---------- tiles ---------- */
+    .grid {
+      width: 100%;
+      display: grid; gap: clamp(26px, 4vw, 40px);
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+    }
+    .tile {
+      position: relative; isolation: isolate;
+      border-radius: var(--r-tile);
+      padding: 30px 28px 26px;
+      display: flex; flex-direction: column; gap: 14px;
+      background: linear-gradient(145deg, var(--base-hi) 0%, var(--base) 45%, var(--base-lo) 100%);
+      box-shadow: 10px 10px 24px var(--shadow-dark), -8px -8px 20px var(--shadow-light);
+      transition: box-shadow .25s ease, transform .25s ease;
+    }
+    .tile:hover { transform: translateY(-2px); box-shadow: 14px 14px 28px var(--shadow-dark), -8px -8px 20px var(--shadow-light); }
+    .tile:active { transform: translateY(0); }
+
+    
+    .tile h2 { font-family: var(--title); font-size: 1.6rem; font-weight: 600; letter-spacing: .3px; line-height: 1.15; }
+    .tile h2 a { color: inherit; text-decoration: none; }
+    /* the whole tile opens the wiki; the chips below sit above this link */
+    .tile h2 a::after { content: ''; position: absolute; inset: 0; border-radius: var(--r-tile); z-index: 0; }
+    .tile h2 a:focus-visible { outline: none; }
+    .tile:has(h2 a:focus-visible) { outline: 2px solid var(--neon); outline-offset: 6px; }
+    .tile p { color: var(--text-dim); font-size: .95rem; line-height: 1.55; }
+    .tile .ver { font-family: var(--title); font-size: .8rem; color: var(--text-dim); letter-spacing: 1px; opacity: .8; }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 12px; margin-top: auto; padding-top: 8px; position: relative; z-index: 1; }
+    .chip {
+      font-family: var(--title); font-size: .92rem; font-weight: 500; letter-spacing: .3px;
+      color: var(--text-dim); text-decoration: none;
+      padding: 8px 14px; border-radius: 10px;
+      background: var(--base);
+      box-shadow: 4px 4px 9px var(--shadow-dark), -3px -3px 8px var(--shadow-light);
+      transition: box-shadow .15s ease, color .15s ease;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .chip:hover { color: var(--neon); }
+    .chip:active, .chip:focus-visible {
+      outline: none; color: var(--neon);
+      box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -3px -3px 7px var(--shadow-light);
+    }
+    .chip.main { color: var(--text); }
+    .chip .ext { font-family: var(--body); font-size: .8rem; opacity: .7; }
+
+    /* ---------- socials ---------- */
+    .socials { display: flex; flex-wrap: wrap; justify-content: center; gap: 22px; }
+    .social {
+      width: 58px; height: 58px; border-radius: 50%;
+      display: grid; place-items: center; color: var(--text-dim);
+      background: var(--base);
+      box-shadow: 6px 6px 14px var(--shadow-dark), -5px -5px 12px var(--shadow-light);
+      transition: color .15s ease, box-shadow .15s ease;
+    }
+    .social svg { width: 24px; height: 24px; }
+    .social:hover { color: var(--neon); }
+    .social:active, .social:focus-visible {
+      outline: none; color: var(--neon);
+      box-shadow: inset 6px 6px 12px var(--shadow-dark), inset -6px -6px 12px var(--shadow-light);
+    }
+
+    footer {
+      text-align: center; color: var(--text-dim); font-size: .78rem; letter-spacing: .5px;
+      font-family: 'Courier New', monospace;
+      padding-block: 24px max(24px, env(safe-area-inset-bottom, 0px));
+      padding-left: max(20px, env(safe-area-inset-left, 0px));
+      padding-right: max(20px, env(safe-area-inset-right, 0px));
+      opacity: .85;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      h1, h1::before, h1::after { animation: none !important; }
+      .tile, .chip, .social { transition: none; }
+      .tile:hover { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <h1 data-text="Nostalgic">Nostalgic</h1>
+    </header>
+
+    <section class="grid" aria-label="Projects">
+
+      <article class="tile trees">
+        <h2><a href="/wiki/nostalgictrees/">Nostalgic Trees</a></h2>
+        <p>Resource trees that grow ores and materials. Mutate saplings, dry the harvest and build out a tree farm.</p>
+        <span class="ver">NeoForge 1.21.1</span>
+        <div class="chips">
+          <a class="chip main" href="/wiki/nostalgictrees/">Wiki</a>
+          <a class="chip" href="/treeconfig/">Tree Config</a>
+          <a class="chip" href="https://www.curseforge.com/minecraft/mc-mods/nostalgic-trees" target="_blank" rel="noopener">CurseForge <span class="ext" aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+
+      <article class="tile dialog">
+        <h2><a href="/wiki/nostalgicdialog/">Nostalgic Dialog</a></h2>
+        <p>Classic RPG conversations: typed-out text, talking blips, portraits that change with the mood, and choices that matter.</p>
+        <span class="ver">NeoForge 1.21.1</span>
+        <div class="chips">
+          <a class="chip main" href="/wiki/nostalgicdialog/">Wiki</a>
+          <a class="chip" href="/wiki/nostalgicdialog/for-packmakers">Get started</a>
+        </div>
+      </article>
+
+      <article class="tile rituals">
+        <h2><a href="/blockpattern/">Summoning Rituals</a></h2>
+        <p>Build a ritual structure in game, import it here, and get ready-to-paste KubeJS <code style="font-family:inherit;color:var(--text)">blockPattern()</code> code.</p>
+        <span class="ver">KubeJS</span>
+        <div class="chips">
+          <a class="chip main" href="/blockpattern/">Block Pattern Builder</a>
+        </div>
+      </article>
+
+    </section>
+
+    <nav class="socials" aria-label="Elsewhere">
+      <a class="social" href="https://github.com/Nostalgic-am" target="_blank" rel="noopener" aria-label="GitHub" style="--c:#e6f4f2">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.25.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.08 0 4.41-2.69 5.39-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+      </a>
+      <!-- Add your other links here. Copy a block and change the href, label and color.
+      <a class="social" href="https://open.spotify.com/..." target="_blank" rel="noopener" aria-label="Spotify" style="--c:#1ed760">…icon…</a>
+      <a class="social" href="https://www.instagram.com/..." target="_blank" rel="noopener" aria-label="Instagram" style="--c:#ff3d8b">…icon…</a>
+      <a class="social" href="https://www.snapchat.com/add/..." target="_blank" rel="noopener" aria-label="Snapchat" style="--c:#fffc00">…icon…</a>
+      -->
+    </nav>
+  </main>
+
+  <footer>© 2026 Nostalgic.am | Finding Purpose, Questioning Reality</footer>
+  <script>
+    // Glitch the title now and then, at random intervals.
+    (function () {
+      var h = document.querySelector('h1');
+      var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)');
+      function glitch() {
+        if (!(calm && calm.matches)) { h.classList.remove('glitch'); void h.offsetWidth; h.classList.add('glitch'); }
+        setTimeout(glitch, 4000 + Math.random() * 7000);
+      }
+      setTimeout(glitch, 1800);
+    })();
+  </script>
+</body>
+</html>
